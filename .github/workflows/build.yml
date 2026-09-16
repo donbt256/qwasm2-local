@@ -1,0 +1,33 @@
+name: Build Qwasm2
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Qwasm2
+        uses: actions/checkout@v4
+
+      - name: Set up Emscripten
+        uses: emscripten-core/setup-emsdk@v15
+        with:
+          version: latest
+
+      - name: Verify Emscripten
+        run: emcc --version
+
+      - name: Build Qwasm2
+        shell: bash
+        run: |
+          source "$EMSDK/emsdk_env.sh"
+          emmake make
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: qwasm2-build
+          path: release/
