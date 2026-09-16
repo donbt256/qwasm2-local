@@ -24,6 +24,8 @@ jobs:
 
           emcc --version
 
+          mkdir -p release
+
           emmake make release/ref_gles3.wasm
           emmake make release/game_baseq2.wasm
           emmake make release/index.html
