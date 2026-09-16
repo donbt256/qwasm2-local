@@ -17,14 +17,22 @@ jobs:
         with:
           version: latest
 
-      - name: Verify Emscripten
-        run: emcc --version
-
       - name: Build Qwasm2
         shell: bash
         run: |
           source "$EMSDK/emsdk_env.sh"
-          emmake make
+
+          emcc --version
+
+          emmake make release/ref_gles3.wasm
+          emmake make release/game_baseq2.wasm
+          emmake make release/index.html
+
+      - name: Show build output
+        shell: bash
+        run: |
+          echo "=== release/ ==="
+          ls -lah release/
 
       - name: Upload build
         uses: actions/upload-artifact@v4
